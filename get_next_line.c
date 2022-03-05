@@ -6,7 +6,7 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:22:31 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/05 08:37:02 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/05 08:41:15 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,22 @@ char	*ft_strjoin(char *s1, char *s2)
 	free (s1);
 	return (new);
 }
+int jgetter(char *str)
+{
+	int j;
+
+	j = 0;
+	if (*str == '\n' || *str == '\0')
+		j = 1;
+	return (j);
+}
 char *ft_reader(int fd, char *s, int bf)
 {
 	char	*str;
 	int		i;
-	int		j  = 0;
+	int		j;
 
+	j = 0;
 	i = 0;
 	while (j == 0 && bf--)
 	{
@@ -83,17 +93,14 @@ char *ft_reader(int fd, char *s, int bf)
 		if (!str)
 			return (NULL);
 		read(fd, str, 1);
+		jgetter(str);
 		if (str[i] == '\n')
 		{
 			str[++i] = '\0';
 			s = ft_strjoin(s, str);
-			j = 1;
 		}
 		else if (str[i] == '\0')
-		{
 			s = ft_strjoin(s, str);
-			j = 1;
-		}
 		else
 			s = ft_strjoin(s, str);
 		free(str);
