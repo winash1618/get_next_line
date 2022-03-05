@@ -6,7 +6,7 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:22:31 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/05 07:34:28 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/05 08:37:02 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,41 +69,45 @@ char	*ft_strjoin(char *s1, char *s2)
 	free (s1);
 	return (new);
 }
-
-void ft_reader(int fd, char *s)
+char *ft_reader(int fd, char *s, int bf)
 {
 	char	*str;
 	int		i;
+	int		j  = 0;
 
 	i = 0;
-	str = (char *)malloc(2);
-	if (!str)
-		return ;
-	read(fd, str, 1);
-	printf("%s \n", s);
-	if (str[i] == '\n')
+	while (j == 0 && bf--)
 	{
-		str[++i] = '\0';
-		s = ft_strjoin(s, str);
-	}
-	else if (str[i] == '\0')
-		s = ft_strjoin(s, str);
-	else
-	{
-		s = ft_strjoin(s, str);
+		i = 0;
+		str = (char *)malloc(2);
+		if (!str)
+			return (NULL);
+		read(fd, str, 1);
+		if (str[i] == '\n')
+		{
+			str[++i] = '\0';
+			s = ft_strjoin(s, str);
+			j = 1;
+		}
+		else if (str[i] == '\0')
+		{
+			s = ft_strjoin(s, str);
+			j = 1;
+		}
+		else
+			s = ft_strjoin(s, str);
 		free(str);
-		ft_reader(fd, s);
 	}
+	return (s);
 }
 
 char *get_next_line(int fd)
 {
 	static char *str;
 
-	printf("%d", fd);
 	if (BUFFER_SIZE <= 0 || fd <= 0)
 		return (NULL);
-	ft_reader(fd, str);
+	str = ft_reader(fd, str, BUFFER_SIZE);
 	return (str);
 }
 
