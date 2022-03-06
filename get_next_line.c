@@ -6,11 +6,18 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:22:31 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/05 08:41:15 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/06 09:15:01 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*freeme(char *s, char *str)
+{
+	free (s);
+	free (str);
+	return (NULL);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -74,55 +81,88 @@ int jgetter(char *str)
 	int j;
 
 	j = 0;
-	if (*str == '\n' || *str == '\0')
+	if (*str == '\n' || *str == EOF)
 		j = 1;
 	return (j);
 }
-char *ft_reader(int fd, char *s, int bf)
+
+char *ft_reader(int fd, char *s)
 {
 	char	*str;
 	int		i;
 	int		j;
+	int		k;
 
 	j = 0;
 	i = 0;
-	while (j == 0 && bf--)
+	while (j == 0)
 	{
-		i = 0;
+		k = 0;
 		str = (char *)malloc(2);
 		if (!str)
 			return (NULL);
-		read(fd, str, 1);
-		jgetter(str);
-		if (str[i] == '\n')
+		str[1] = '\0';
+		k = read(fd, str, 1);
+		i += k;
+		if (k == -1)
 		{
-			str[++i] = '\0';
-			s = ft_strjoin(s, str);
+			free (s);
+			return (NULL);
 		}
-		else if (str[i] == '\0')
-			s = ft_strjoin(s, str);
-		else
-			s = ft_strjoin(s, str);
+		j = jgetter(str);
+		s = ft_strjoin(s, str);
 		free(str);
 	}
+	return (s);
+}
+char	*ft_strdup(const char *s1)
+{
+	char	*ptr;
+	int		count;
+
+	count = 0;
+	ptr = (char *) malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	while (*s1)
+	{
+		*ptr++ = *s1++;
+		count++;
+	}
+	*ptr = '\0';
+	ptr = ptr - count;
+	s1 = s1 - count;
+	return (ptr);
+}
+char	*ft_getcline(char *str)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	i = ft_strlen(str);
+	s = ft_strdup(str);
 	return (s);
 }
 
 char *get_next_line(int fd)
 {
 	static char *str;
+	char *s;
+	int i;
 
-	if (BUFFER_SIZE <= 0 || fd <= 0)
+	i = 0;
+	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	str = ft_reader(fd, str, BUFFER_SIZE);
-	return (str);
+	str = ft_reader(fd, str);
+	s = ft_getcline(str);
+	if (!str)
+		return (s);
+	while(str[i])
+		str[i++] = '\0';
+	return (s);
 }
 
-int main()
-{
-	int fd;
-	char *str;
-	fd = open("foo.txt", O_RDONLY);
-	str = get_next_line(fd);
-	printf("%s",str);
-}
+
