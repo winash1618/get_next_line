@@ -6,18 +6,11 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:22:31 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/06 09:15:01 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/06 11:24:38 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*freeme(char *s, char *str)
-{
-	free (s);
-	free (str);
-	return (NULL);
-}
 
 size_t	ft_strlen(const char *s)
 {
@@ -29,6 +22,26 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*ptr;
+	int		count;
+
+	count = 0;
+	ptr = (char *) malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	while (*s1)
+	{
+		*ptr++ = *s1++;
+		count++;
+	}
+	*ptr = '\0';
+	ptr = ptr - count;
+	s1 = s1 - count;
+	return (ptr);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -76,12 +89,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	free (s1);
 	return (new);
 }
+
 int jgetter(char *str)
 {
 	int j;
 
 	j = 0;
-	if (*str == '\n' || *str == EOF)
+	if (*str == '\n' || *str == '\0')
 		j = 1;
 	return (j);
 }
@@ -110,40 +124,26 @@ char *ft_reader(int fd, char *s)
 			return (NULL);
 		}
 		j = jgetter(str);
-		s = ft_strjoin(s, str);
+		if(k != 0)
+			s = ft_strjoin(s, str);
+		if (k == 0 && i == 0)
+			return (NULL);
 		free(str);
 	}
 	return (s);
 }
-char	*ft_strdup(const char *s1)
-{
-	char	*ptr;
-	int		count;
 
-	count = 0;
-	ptr = (char *) malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	while (*s1)
-	{
-		*ptr++ = *s1++;
-		count++;
-	}
-	*ptr = '\0';
-	ptr = ptr - count;
-	s1 = s1 - count;
-	return (ptr);
-}
 char	*ft_getcline(char *str)
 {
 	int		i;
 	char	*s;
 
 	i = 0;
+	s = NULL;
 	if (!str)
 		return (NULL);
 	i = ft_strlen(str);
-	s = ft_strdup(str);
+	s = ft_strjoin(s, str);
 	return (s);
 }
 
@@ -160,9 +160,8 @@ char *get_next_line(int fd)
 	s = ft_getcline(str);
 	if (!str)
 		return (s);
+	// s[BUFFER_SIZE] = '\0';
 	while(str[i])
 		str[i++] = '\0';
 	return (s);
 }
-
-
