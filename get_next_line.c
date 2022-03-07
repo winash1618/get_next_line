@@ -6,7 +6,7 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:22:31 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/06 11:24:38 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/07 07:16:58 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*ptr;
-	int		count;
-
-	count = 0;
-	ptr = (char *) malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	while (*s1)
-	{
-		*ptr++ = *s1++;
-		count++;
-	}
-	*ptr = '\0';
-	ptr = ptr - count;
-	s1 = s1 - count;
-	return (ptr);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -100,6 +80,13 @@ int jgetter(char *str)
 	return (j);
 }
 
+char *ft_free(char *str, char *s)
+{
+	free (s);
+	free (str);
+	return (NULL);
+}
+
 char *ft_reader(int fd, char *s)
 {
 	char	*str;
@@ -119,15 +106,12 @@ char *ft_reader(int fd, char *s)
 		k = read(fd, str, 1);
 		i += k;
 		if (k == -1)
-		{
-			free (s);
-			return (NULL);
-		}
+			return (ft_free(str, s));
 		j = jgetter(str);
 		if(k != 0)
 			s = ft_strjoin(s, str);
 		if (k == 0 && i == 0)
-			return (NULL);
+			return (ft_free(str, s));
 		free(str);
 	}
 	return (s);
