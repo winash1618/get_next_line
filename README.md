@@ -27,3 +27,4 @@ resources:
     to check memory layout in terminal type : size ./a.out
 7. https://www.geeksforgeeks.org/g-fact-80/  -Explanation on why a static variable cannot initialized by a function call.
 8. https://www.geeksforgeeks.org/what-are-static-functions-in-c/                                     -Explanation on static function.
+9. https://pubs.opengroup.org/onlinepubs/007904975/basedefs/limits.h.html                            -Explain what is OPENMAX.
