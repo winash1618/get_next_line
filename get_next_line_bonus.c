@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaruvan <mkaruvan@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 07:45:39 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/09 07:45:44 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/09 08:03:54 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ char	*ft_reader(int fd, char *s)
 
 	i[0] = 0;
 	i[1] = 0;
-	while (j == 0)
+	while (i[1] == 0)
 	{
 		i[2] = 0;
 		str = (char *)malloc(2);
 		if (!str)
 			return (NULL);
 		str[1] = '\0';
-		k = read(fd, str, 1);
+		i[2] = read(fd, str, 1);
 		i[0] += i[2];
 		if (i[2] == -1)
 			return (ft_free(str, s));
