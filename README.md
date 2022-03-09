@@ -2,6 +2,8 @@
 
 resources:
 
+******** To know system soft limit "ulimit -aS" in terminal it is 256 for the Mac i am using. To know the hard limit "ulimit -aH" in terminal it is unlimited for the mac i am using. ********
+
 1. https://softwareengineering.stackexchange.com/questions/163931/is-using-a-bigger-buffer-useful    -Explanation on buffer size.
 
    Q. Is using a bigger buffer useful?
