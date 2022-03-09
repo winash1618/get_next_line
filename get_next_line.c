@@ -6,7 +6,7 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:22:31 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/09 08:07:43 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/09 08:10:43 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	jgetter(char *str)
 {
 	if (*str == '\n' || *str == '\0')
 		return (1);
+	return (0);
 }
 
 char	*ft_free(char *str, char *s)
