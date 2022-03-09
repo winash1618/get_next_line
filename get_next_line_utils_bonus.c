@@ -6,7 +6,7 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 07:55:39 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/09 07:55:56 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/09 08:53:48 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-	{
-		if (s[i] == (char )c)
-			return ((char *)(s + i));
-		i++;
-	}
-	if (s[i] == (char )c)
-		return ((char *)(s + i));
-	return (0);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
