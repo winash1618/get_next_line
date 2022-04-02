@@ -6,7 +6,7 @@
 /*   By: mkaruvan <mkaruvan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 07:45:39 by mkaruvan          #+#    #+#             */
-/*   Updated: 2022/03/17 09:46:35 by mkaruvan         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:27:52 by mkaruvan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ char	*ft_free(char *str, char *s)
 	return (NULL);
 }
 
-char	*ft_reader(int fd, char *s)
+char	*ft_reader(int fd, char *s, size_t bf)
 {
 	char	*str;
 	int		i;
 
 	i = 1;
-	str = (char *)malloc(BUFFER_SIZE + 1);
+	str = (char *)malloc(bf + 1);
 	if (!str)
 		return (NULL);
 	while (i != 0 && !ft_strchr(s, '\n'))
 	{
-		i = read(fd, str, BUFFER_SIZE);
+		i = read(fd, str, bf);
 		if (i == -1)
 		{
 			free(str);
@@ -107,10 +107,9 @@ char	*get_next_line(int fd)
 	static char	*str[OPEN_MAX];
 	char		*s;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || BUFFER_SIZE >= 2147483647
-		|| fd > OPEN_MAX)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd > OPEN_MAX)
 		return (NULL);
-	str[fd] = ft_reader(fd, str[fd]);
+	str[fd] = ft_reader(fd, str[fd], BUFFER_SIZE);
 	if (!str[fd])
 		return (NULL);
 	s = ft_cline(str[fd]);
